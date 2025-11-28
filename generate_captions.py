@@ -183,7 +183,7 @@ def apply_size(paragraph, size: Optional[str]):
             run.font.size = Pt(font_size)
 
 
-def add_hidden_metadata(paragraph, clip: CaptionClip):
+def build_metadata_parts(clip: CaptionClip) -> List[str]:
     meta_parts = [f"type={clip.subtitle_type}"]
     if clip.sequence_tag:
         meta_parts.append(f"sequence={clip.sequence_tag}")
@@ -199,8 +199,18 @@ def add_hidden_metadata(paragraph, clip: CaptionClip):
         meta_parts.append(f"theme={clip.theme_applied}")
     if clip.notes:
         meta_parts.append(f"notes={clip.notes}")
-    if meta_parts:
-        meta_run = paragraph.add_run(f" [meta: {';'.join(meta_parts)}]")
+    return meta_parts
+
+
+def build_metadata_text(clip: CaptionClip) -> Optional[str]:
+    meta_parts = build_metadata_parts(clip)
+    return ";".join(meta_parts) if meta_parts else None
+
+
+def add_hidden_metadata(paragraph, clip: CaptionClip):
+    meta_text = build_metadata_text(clip)
+    if meta_text:
+        meta_run = paragraph.add_run(f" [meta: {meta_text}]")
         meta_run.font.hidden = True
         meta_run.font.size = Pt(1)
 

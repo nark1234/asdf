@@ -43,10 +43,13 @@
       <div class="section">
         <div class="hint">1. 분석 JSON을 업로드하거나 샘플을 사용합니다.</div>
         <div class="hint">2. 필요하면 lexicon/theme JSON을 추가합니다.</div>
-        <div class="hint">3. 생성 버튼을 누르면 DOCX가 바로 다운로드됩니다.</div>
+        <div class="hint">3. 미리보기로 스타일을 확인한 뒤 DOCX 생성 버튼을 누를 수 있습니다.</div>
       </div>
 
-      <button type="submit">DOCX 생성</button>
+      <div class="actions">
+        <button type="submit" formaction="{{ url_for('preview') }}" formmethod="post" class="ghost">미리보기</button>
+        <button type="submit">DOCX 생성</button>
+      </div>
     </form>
     <div class="footer">HTML, CSS, JavaScript로 동작하는 간단한 폼입니다.</div>
   </div>
