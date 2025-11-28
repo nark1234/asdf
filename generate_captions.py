@@ -60,6 +60,12 @@ class CaptionTheme:
             return cls()
         with path.open("r", encoding="utf-8") as handle:
             data = json.load(handle)
+        return cls.from_dict(data)
+
+    @classmethod
+    def from_dict(cls, data: Optional[Dict]) -> "CaptionTheme":
+        if not data:
+            return cls()
         return cls(style_overrides=data.get("styles", {}), style_id=data.get("style_id"))
 
     def resolve_style(self, clip: CaptionClip) -> Dict[str, str]:
@@ -92,6 +98,12 @@ class ProgramLexicon:
             return cls()
         with path.open("r", encoding="utf-8") as handle:
             data = json.load(handle)
+        return cls.from_dict(data)
+
+    @classmethod
+    def from_dict(cls, data: Optional[Dict]) -> "ProgramLexicon":
+        if not data:
+            return cls()
         names = []
         for item in data.get("names", []):
             if isinstance(item, dict):
@@ -115,9 +127,7 @@ class ProgramLexicon:
         return clip.notes
 
 
-def load_clips(path: Path) -> List[CaptionClip]:
-    with path.open("r", encoding="utf-8") as handle:
-        data = json.load(handle)
+def parse_clips(data: Dict) -> List[CaptionClip]:
     clips = []
     for raw in data.get("clips", []):
         clips.append(
@@ -137,6 +147,12 @@ def load_clips(path: Path) -> List[CaptionClip]:
             )
         )
     return clips
+
+
+def load_clips(path: Path) -> List[CaptionClip]:
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+    return parse_clips(data)
 
 
 def ensure_styles(doc: Document) -> None:
@@ -189,7 +205,7 @@ def add_hidden_metadata(paragraph, clip: CaptionClip):
         meta_run.font.size = Pt(1)
 
 
-def write_document(clips: List[CaptionClip], theme: CaptionTheme, lexicon: ProgramLexicon, output_path: Path):
+def build_document(clips: List[CaptionClip], theme: CaptionTheme, lexicon: ProgramLexicon) -> Document:
     doc = Document()
     ensure_styles(doc)
 
@@ -204,8 +220,13 @@ def write_document(clips: List[CaptionClip], theme: CaptionTheme, lexicon: Progr
         apply_size(paragraph, style_info.get("size"))
         add_hidden_metadata(paragraph, clip)
 
-    doc.save(str(output_path))
+    return doc
 
+
+def write_document(clips: List[CaptionClip], theme: CaptionTheme, lexicon: ProgramLexicon, output_path: Path):
+    doc = build_document(clips, theme, lexicon)
+    doc.save(str(output_path))
+    
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate variety-style caption docx from analyzed clips.")

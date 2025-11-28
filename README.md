@@ -255,3 +255,16 @@ python generate_captions.py \
 3) **결과 확인**: `captions.docx`를 열어 폰트/정렬/크기가 입력 데이터(`subtitle_type`, `font`, `align`, `size`)에 맞게 적용됐는지 확인하고, 각 문단 코멘트에 `subtitle_type`, `sequence_tag`, `tone_pack`, `hook`, `cta`, `keep_original`, `notes`, `theme` 메타데이터가 있는지 검수한다.
 4) **자체 데이터로 교체 테스트**: `sample_data/analysis.json`을 본인 분석 결과로 교체하거나, `--lexicon`/`--theme` 인자를 생략해 폴백 스타일을 확인할 수 있다. 경로를 잘못 넣었을 때의 에러 메시지로 유효성 검사 여부를 확인해볼 수 있다.
 
+
+### 9-6. 웹앱(플라스크)으로 DOCX 생성하기
+```bash
+pip install -r requirements.txt
+export FLASK_APP=app.py
+flask run --host 0.0.0.0 --port 5000
+# 또는 python app.py 로 단독 실행
+```
+
+1) 브라우저에서 `http://localhost:5000`에 접속한다.
+2) `analysis` JSON을 업로드(또는 **샘플 데이터 사용** 체크박스로 채우기)한다.
+3) 필요하면 `lexicon`/`theme` JSON을 올리고, 파일명을 지정한다.
+4) **DOCX 생성** 버튼을 누르면 워드 파일이 즉시 다운로드되며, 메타데이터/테마 적용 여부도 그대로 반영된다.
