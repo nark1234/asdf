@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>자막 미리보기</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="card">
+    <h1>DOCX 생성 전 미리보기</h1>
+    <div class="preview-summary">
+      {{ clip_count }}개의 자막을 "{{ filename }}" 파일에 쓸 예정입니다.
+      {% if style_id %}테마 ID: {{ style_id }}{% endif %}
+      {% if style_overrides %} (커스텀 스타일 적용){% endif %}
+    </div>
+
+    <div class="preview-grid preview-head">
+      <div>본문</div>
+      <div>폰트</div>
+      <div class="align-center">정렬</div>
+      <div class="align-center">크기</div>
+      <div>메타/노트</div>
+    </div>
+    {% for row in rows %}
+      <div class="preview-grid preview-row">
+        <div class="preview-text align-{{ row.align if row.align in ['center','right'] else 'left' }}">{{ row.text }}</div>
+        <div>{{ row.style_name }}</div>
+        <div class="align-center">{{ row.align }}</div>
+        <div class="align-center">{{ row.size }}</div>
+        <div>
+          <div class="preview-meta">{{ row.metadata or 'meta: ---' }}</div>
+          {% if row.notes %}<div class="preview-notes">notes: {{ row.notes }}</div>{% endif %}
+        </div>
+      </div>
+    {% endfor %}
+
+    <div class="actions">
+      <a class="button-link ghost" href="{{ url_for('index') }}">다시 업로드</a>
+      <form action="{{ url_for('generate') }}" method="post">
+        <input type="hidden" name="analysis_json" value='{{ analysis_payload | tojson }}' />
+        {% if lexicon_payload %}<input type="hidden" name="lexicon_json" value='{{ lexicon_payload | tojson }}' />{% endif %}
+        {% if theme_payload %}<input type="hidden" name="theme_json" value='{{ theme_payload | tojson }}' />{% endif %}
+        <input type="hidden" name="filename" value="{{ filename }}" />
+        <button type="submit">이 설정으로 DOCX 생성</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "style_id": "running_show_v1",
+  "styles": {
+    "말": {"font": "고딕", "align": "left"},
+    "재미": {"font": "고딕 중앙", "align": "center", "size": "medium"},
+    "상황": {"font": "굴림", "align": "right", "size": "small"}
+  }
+}

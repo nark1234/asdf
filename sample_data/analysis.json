@@ -1,0 +1,33 @@
+{
+  "clips": [
+    {
+      "text": "고딕) 1라운드를 향한 기묘한... 첫 걸음",
+      "subtitle_type": "말",
+      "sequence_tag": "intro",
+      "tone_pack": "런닝게임",
+      "hook": true,
+      "notes": "PD guide kept"
+    },
+    {
+      "text": "고딕 중앙) 낯선 세계 그 첫 번째 관문!",
+      "subtitle_type": "재미",
+      "sequence_tag": "build",
+      "tone_pack": "런닝게임"
+    },
+    {
+      "text": "중앙대판) 결전의 서막",
+      "subtitle_type": "재미",
+      "sequence_tag": "peak",
+      "tone_pack": "런닝게임",
+      "cta": true
+    },
+    {
+      "text": "굴림) (로그인이 완료되었습니다)",
+      "subtitle_type": "상황",
+      "sequence_tag": "payoff",
+      "tone_pack": "런닝게임",
+      "align": "right",
+      "notes": "속마음"
+    }
+  ]
+}
