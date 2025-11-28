@@ -268,3 +268,5 @@ flask run --host 0.0.0.0 --port 5000
 2) `analysis` JSON을 업로드(또는 **샘플 데이터 사용** 체크박스로 채우기)한다.
 3) 필요하면 `lexicon`/`theme` JSON을 올리고, 파일명을 지정한다.
 4) **DOCX 생성** 버튼을 누르면 워드 파일이 즉시 다운로드되며, 메타데이터/테마 적용 여부도 그대로 반영된다.
+
+UI는 `templates/index.html` + `static/style.css` + `static/app.js` 조합으로 작동하며, 파일 업로드 여부와 샘플 데이터 사용 상태를 한눈에 확인할 수 있도록 간단한 안내/표시를 제공한다.
